@@ -4,11 +4,27 @@ ENV PATH ${CUDA_PATH}/bin:$PATH
 ENV LD_LIBRARY_PATH ${CUDA_PATH}/bin64:$LD_LIBRARY_PATH
 ENV C_INCLUDE_PATH ${CUDA_PATH}/include
 
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#          wget \
+#          vim \
+#          libopencv-dev \
+#          python-pip \
+#          python-opencv \
+#          git \
+#          libzmq3-dev \
+#          libhdf5-serial-dev \
+#          libboost-all-dev
+
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#          python3-pip \
+#          python3-dev \
+#          python3-tk
+
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
          wget \
          vim \
          libopencv-dev \
-         python-pip \
          python-opencv \
          git \
          libzmq3-dev \
@@ -16,13 +32,39 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
          libboost-all-dev
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-         python3-pip \
-         python3-dev \
          python3-tk
 
-RUN pip3 install --upgrade pip 
-RUN pip3 install -U setuptools
-RUN pip3 install Cython \ 
+
+RUN apt-get update && apt-get install -y build-essential libbz2-dev libssl-dev libreadline-dev \
+                        libffi-dev libsqlite3-dev tk-dev
+RUN apt-get update && apt-get install -y libpng-dev libfreetype6-dev    
+RUN apt-get update && apt-get install -y curl
+
+
+
+# RUN apt-get update \ 
+#         && apt-get install -y --no-install-recommends make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget ca-certificates curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev mecab-ipadic-utf8 git
+
+# Set-up necessary Env vars for PyEnv
+ENV PYTHON_VERSION 3.6.9
+
+ENV PYENV_ROOT /root/.pyenv
+ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
+
+# Install pyenv
+RUN set -ex \
+    && curl https://pyenv.run | bash \
+    && pyenv update \
+    && pyenv install $PYTHON_VERSION \
+    && pyenv global $PYTHON_VERSION \
+    && pyenv rehash
+
+
+
+
+RUN pip install --upgrade pip 
+RUN pip install -U setuptools
+RUN pip install Cython \ 
                 scikit-image \
                 tensorflow-gpu==1.12.0 \
                 keras==2.1.1 \
@@ -33,4 +75,4 @@ RUN pip3 install Cython \
                 opencv-python \
                 zmq \ 
                 h5py
-RUN pip3 install pillow
+RUN pip install pillow

@@ -36,6 +36,14 @@ human_part = [0,1,2,4,3,6,5,8,7,10,9,12,11,14,13]
 human_ori_part = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
 seg_num = 15 # current model supports 15 parts only
 
+# copied from "inference_15parts_skeletons.py" below 3 lists
+ori_paf_idx = [12, 13, 20, 21, 14, 15, 16, 17, 22, 23, 24, 25, 0, 1, 2, 3, \
+                4, 5, 6, 7, 8, 9, 10, 11, 28, 29, 30, 31, 34,35, 32, 33, 36, 37, 18, 19, 26, 27]
+flip_paf_idx = [20, 21, 12, 13, 22, 23,  24, 25, 14, 15, 16, 17, 6, 7, 8, 9, \
+                10, 11, 0, 1, 2, 3, 4, 5, 28, 29, 32, 33, 36, 37, 30, 31, 34,35,26, 27,18, 19]
+x_paf_idx = [20, 12, 22, 24, 14, 16, 6, 8, \
+                10, 0, 2, 4, 28, 32, 36, 30, 34,26,18]
+
 def recover_flipping_output(oriImg, heatmap_ori_size, paf_ori_size, part_ori_size):
 
     heatmap_ori_size = heatmap_ori_size[:, ::-1, :]
